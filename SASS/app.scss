@@ -1,0 +1,27 @@
+// Variables:
+$body-color: linear-gradient(to bottom, #f00fbf, #2215d7);
+$body-font: Helvetica, sans-serif;
+$color-primary: #060505;
+ 
+
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+body {
+
+    // background-color: $color-primary;
+    background-color: $body-color;
+    font-family: $body-font;
+    line-height: 1.6;
+}
+
+h1{ 
+    color: $color-primary ;
+}
