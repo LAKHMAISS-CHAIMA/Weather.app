@@ -1,27 +1,122 @@
-// Variables:
-$body-color: linear-gradient(to bottom, #f00fbf, #2215d7);
-$body-font: Helvetica, sans-serif;
-$color-primary: #060505;
- 
+// Variables
+$primary-font: Arial, sans-serif;
+$text-color: #333;
+$button-bg: #007BFF;
+$button-hover-bg: darken($button-bg, 10%);
+$favorites-bg: linear-gradient(135deg, #f905a0, #2575fc);
+$section-border: #dcdcdc;
 
+// Dégradé de fond
+// $gradient-bg: linear-gradient(135deg, #6a11cb, #2575fc);
 
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-
-
-
+// Styles
 body {
+  font-family: $primary-font;
+  margin: 0;
+  min-height: 100vh;
+  background: $gradient-bg; // Ajout du dégradé
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $text-color;
 
-    // background-color: $color-primary;
-    background-color: $body-color;
-    font-family: $body-font;
-    line-height: 1.6;
-}
+  .app-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9); // Légèrement transparent pour voir le dégradé derrière
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-h1{ 
-    color: $color-primary ;
+    .weather-app {
+      flex: 3;
+      padding: 20px;
+      text-align: center;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+      header {
+        h1 {
+          margin: 0;
+          font-size: 24px;
+        }
+      }
+
+      .details {
+        div {
+          display: flex;
+          justify-content: space-between;
+          margin: 10px 0;
+        }
+      }
+
+      .search-container {
+        margin-top: 20px;
+
+        input {
+          padding: 10px;
+          width: 70%;
+          margin-right: 10px;
+        }
+
+        button {
+          padding: 10px;
+          background-color: $button-bg;
+          color: white;
+          border: none;
+          border-radius: 4px;
+
+          &:hover {
+            background-color: $button-hover-bg;
+          }
+        }
+      }
+    }
+
+    .favorites-section {
+      flex: 1;
+      margin-left: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4); // Dégradé ajouté
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      color: $text-color;
+    
+      h2 {
+        margin-bottom: 10px;
+        font-size: 20px;
+        border-bottom: 2px solid $section-border;
+        padding-bottom: 5px;
+      }
+    
+      ul {
+        list-style: none;
+        padding: 0;
+    
+        li {
+          background: white;
+          padding: 10px;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+    
+          button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+    
+            &:hover {
+              background-color: darken(red, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
 }
