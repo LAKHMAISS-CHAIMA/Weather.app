@@ -1,120 +1,212 @@
 // Variables
-$primary-font: Arial, sans-serif;
-$text-color: #333;
-$button-bg: #007BFF;
-$button-hover-bg: darken($button-bg, 10%);
-$favorites-bg: linear-gradient(135deg, #f905a0, #2575fc);
-$section-border: #dcdcdc;
+$primary-color: linear-gradient(135deg, #7f00ff, #007fff);
+$background-color: #121212; // Black
+$text-color: #ffffff; // White
+$card-bg: #1e1e2f; // Slightly lighter black
+$accent-color: #2514dc; // Green for highlights
+$transition-time: 0.3s;
 
-// Dégradé de fond
-// $gradient-bg: linear-gradient(135deg, #6a11cb, #2575fc);
-
-// Styles
-body {
-  font-family: $primary-font;
+// Global Styles
+* {
   margin: 0;
-  min-height: 100vh;
-  background: $gradient-bg; // Ajout du dégradé
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: $background-color;
   color: $text-color;
+  line-height: 1.6;
+  padding: 1rem;
+}
 
-  .app-container {
+// Header
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: 2.5rem;
+    background: $primary-color;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .weather-input {
     display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9); // Légèrement transparent pour voir le dégradé derrière
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
 
-    .weather-app {
-      flex: 3;
-      padding: 20px;
-      text-align: center;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    input {
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      width: 300px;
+      background-color: $card-bg;
+      color: $text-color;
+      outline: none;
+    }
 
-      header {
-        h1 {
-          margin: 0;
-          font-size: 24px;
-        }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: $primary-color;
+      color: $text-color;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color $transition-time;
+
+      &:hover {
+        background: $primary-color;
       }
 
-      .details {
-        div {
+      i {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+// Weather Cards
+.weather-data {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .weather-left,
+  .weather-right {
+    flex: 1;
+
+    .card {
+      background-color: $card-bg;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform $transition-time;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: $text-color;
+      }
+
+      .forecast-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0.5rem 0;
+
+        .icon-wrapper {
           display: flex;
-          justify-content: space-between;
-          margin: 10px 0;
-        }
-      }
+          align-items: center;
+          gap: 0.5rem;
 
-      .search-container {
-        margin-top: 20px;
-
-        input {
-          padding: 10px;
-          width: 70%;
-          margin-right: 10px;
-        }
-
-        button {
-          padding: 10px;
-          background-color: $button-bg;
-          color: white;
-          border: none;
-          border-radius: 4px;
-
-          &:hover {
-            background-color: $button-hover-bg;
+          img {
+            width: 50px;
           }
+
+          span {
+            font-size: 1.2rem;
+            color: $accent-color;
+          }
+        }
+
+        p {
+          font-size: 1rem;
+          color: lighten($text-color, 20%);
         }
       }
     }
+  }
+}
 
-    .favorites-section {
-      flex: 1;
-      margin-left: 20px;
-      padding: 20px;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4); // Dégradé ajouté
-      border-radius: 8px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+// Favorite Cities Section
+.favorite-cities {
+  margin-top: 2rem;
+
+  h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: $primary-color;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .city-input {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+
+    input {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      background-color: $card-bg;
       color: $text-color;
-    
-      h2 {
-        margin-bottom: 10px;
-        font-size: 20px;
-        border-bottom: 2px solid $section-border;
-        padding-bottom: 5px;
+      outline: none;
+      width: 200px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      border: none;
+      background: $primary-color;
+      color: $text-color;
+      cursor: pointer;
+      transition: background-color $transition-time;
+
+      &:hover {
+        background: $primary-color;
       }
-    
-      ul {
-        list-style: none;
-        padding: 0;
-    
-        li {
-          background: white;
-          padding: 10px;
-          border-radius: 5px;
-          margin-bottom: 10px;
-          display: flex;
-          justify-content: space-between;
-    
-          button {
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-    
-            &:hover {
-              background-color: darken(red, 10%);
-            }
-          }
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin-top: 1rem;
+    padding: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background-color: $card-bg;
+      border-radius: 5px;
+      margin-bottom: 0.5rem;
+      transition: transform $transition-time;
+
+      &:hover {
+        transform: translateX(10px);
+      }
+
+      span {
+        font-size: 1.1rem;
+        color: $text-color;
+      }
+
+      button {
+        background: none;
+        border: none;
+        color: $text-color;
+        cursor: pointer;
+        transition: color $transition-time;
+
+        &:hover {
+          color: $accent-color;
+        }
+
+        i {
+          font-size: 1.2rem;
         }
       }
     }

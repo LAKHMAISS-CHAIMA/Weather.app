@@ -1,107 +1,185 @@
-/* body {
-  font-family: Arial, sans-serif;
+* {
   margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #121212;
+  color: #ffffff;
+  line-height: 1.6;
+  padding: 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.header h2 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #7f00ff, #007fff);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header .weather-input {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.header .weather-input input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  width: 300px;
+  background-color: #1e1e2f;
+  color: #ffffff;
+  outline: none;
+}
+.header .weather-input button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: linear-gradient(135deg, #7f00ff, #007fff);
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.header .weather-input button:hover {
+  background: linear-gradient(135deg, #7f00ff, #007fff);
+}
+.header .weather-input button i {
+  margin-right: 0.5rem;
+}
+
+.weather-data {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.weather-data .weather-left,
+.weather-data .weather-right {
+  flex: 1;
+}
+.weather-data .weather-left .card,
+.weather-data .weather-right .card {
+  background-color: #1e1e2f;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+.weather-data .weather-left .card:hover,
+.weather-data .weather-right .card:hover {
+  transform: translateY(-5px);
+}
+.weather-data .weather-left .card h2,
+.weather-data .weather-right .card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+.weather-data .weather-left .card .forecast-item,
+.weather-data .weather-right .card .forecast-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.weather-data .weather-left .card .forecast-item .icon-wrapper,
+.weather-data .weather-right .card .forecast-item .icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.weather-data .weather-left .card .forecast-item .icon-wrapper img,
+.weather-data .weather-right .card .forecast-item .icon-wrapper img {
+  width: 50px;
+}
+.weather-data .weather-left .card .forecast-item .icon-wrapper span,
+.weather-data .weather-right .card .forecast-item .icon-wrapper span {
+  font-size: 1.2rem;
+  color: #2514dc;
+}
+.weather-data .weather-left .card .forecast-item p,
+.weather-data .weather-right .card .forecast-item p {
+  font-size: 1rem;
+  color: white;
+}
+
+.favorite-cities {
+  margin-top: 2rem;
+}
+.favorite-cities h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #7f00ff, #007fff);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.favorite-cities .city-input {
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: #333;
+  gap: 0.5rem;
 }
-body .app-container {
-  display: flex;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-body .app-container .weather-app {
-  flex: 3;
-  padding: 20px;
-  text-align: center;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-body .app-container .weather-app header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-body .app-container .weather-app .details div {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-}
-body .app-container .weather-app .search-container {
-  margin-top: 20px;
-}
-body .app-container .weather-app .search-container input {
-  padding: 10px;
-  width: 70%;
-  margin-right: 10px;
-}
-body .app-container .weather-app .search-container button {
-  padding: 10px;
-  background-color: #007BFF;
-  color: white;
+.favorite-cities .city-input input {
+  padding: 0.5rem;
+  border-radius: 5px;
   border: none;
-  border-radius: 4px;
+  background-color: #1e1e2f;
+  color: #ffffff;
+  outline: none;
+  width: 200px;
 }
-body .app-container .weather-app .search-container button:hover {
-  background-color: #0062cc;
+.favorite-cities .city-input button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(135deg, #7f00ff, #007fff);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-body .app-container .favorites-section {
-  flex: 1;
-  margin-left: 20px;
-  padding: 20px;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  color: #333;
+.favorite-cities .city-input button:hover {
+  background: linear-gradient(135deg, #7f00ff, #007fff);
 }
-body .app-container .favorites-section h2 {
-  margin-bottom: 10px;
-  font-size: 20px;
-  border-bottom: 2px solid #dcdcdc;
-  padding-bottom: 5px;
-}
-body .app-container .favorites-section ul {
+.favorite-cities ul {
   list-style: none;
+  margin-top: 1rem;
   padding: 0;
 }
-body .app-container .favorites-section ul li {
-  background: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+.favorite-cities ul li {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #1e1e2f;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s;
 }
-body .app-container .favorites-section ul li button {
-  background-color: red;
-  color: white;
+.favorite-cities ul li:hover {
+  transform: translateX(10px);
+}
+.favorite-cities ul li span {
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+.favorite-cities ul li button {
+  background: none;
   border: none;
-  border-radius: 4px;
+  color: #ffffff;
   cursor: pointer;
+  transition: color 0.3s;
 }
-body .app-container .favorites-section ul li button:hover {
-  background-color: #cc0000; */
-/*# sourceMappingURL=app.css.map */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.favorite-cities ul li button:hover {
+  color: #2514dc;
+}
+.favorite-cities ul li button i {
+  font-size: 1.2rem;
+}/*# sourceMappingURL=app.css.map */
