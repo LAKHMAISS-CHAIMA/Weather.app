@@ -1,138 +1,135 @@
-// عناصر DOM
-const cityInput = document.getElementById('city-input');
-const searchBtn = document.getElementById('searchBtn');
-const currentWeatherCard = document.querySelector('.weather-left .card');
-const fiveDaysForecastCard = document.querySelector('.day-forecast');
-const favoriteCityInput = document.getElementById('favorite-city-input');
-const addCityBtn = document.getElementById('addCityBtn');
-const favoriteCitiesList = document.getElementById('favoriteCitiesList');
+let cityInput = document.getElementById("city-input"),
+    searchBtn = document.getElementById("searchBtn"),
+    locationBtn = document.getElementById("locationBtn"),
+    addCityBtn = document.getElementById("addCityBtn"),
+    favoriteCitiesList = document.getElementById("favoriteCitiesList"),
+    api_Key = "6e98a32c37bf892173bd45336d21daee",
+    currentWeatherCard = document.querySelectorAll('.weather-left .card')[0],
+    fiveDaysForecast = document.querySelector('.day-forecast'),
+    aqiCard = document.querySelectorAll('.highlights .card')[0],
+    sunriseCard = document.querySelectorAll('.highlights .card')[1],
+    humidityVal = document.getElementById('humidityVal'),
+    pressureVal = document.getElementById('pressureVal'),
+    visibilityVal = document.getElementById('visibilityVal'),
+    windspeedVal = document.getElementById('windspeedVal'),
+    feelsVal = document.getElementById('feelsVal'),
+    hourlyForecastCard = document.querySelector('.hourly-forecast');
 
-const api_Key = '6e98a32c37bf892173bd45336d21daee';
+const aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
 
-// دوال مساعدة
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// Retrieve favorite cities from localStorage
+function loadFavoriteCities() {
+    const cities = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+    favoriteCitiesList.innerHTML = cities.map(city => `<li>${city}</li>`).join('');
+}
 
-// حفظ المدن المفضلة في LocalStorage
-const saveFavoriteCities = () => {
-  const cities = Array.from(favoriteCitiesList.querySelectorAll('li')).map((li) =>
-    li.querySelector('.city-name').textContent.trim()
-  );
-  localStorage.setItem('favoriteCities', JSON.stringify(cities));
-};
+// Save favorite cities to localStorage
+function saveFavoriteCities(cities) {
+    localStorage.setItem('favoriteCities', JSON.stringify(cities));
+}
 
-// استعادة المدن المفضلة من LocalStorage
-const loadFavoriteCities = () => {
-  const storedCities = JSON.parse(localStorage.getItem('favoriteCities')) || [];
-  storedCities.forEach((city) => addCityToList(city));
-};
+// Add city to favorite cities list
+function addFavoriteCity(cityName) {
+    const cities = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+    if (!cities.includes(cityName)) {
+        cities.push(cityName);
+        saveFavoriteCities(cities);
+        loadFavoriteCities();
+    }
+}
 
-// إضافة مدينة إلى قائمة المفضلة
-const addCityToList = (cityName) => {
-  const listItem = document.createElement('li');
-  listItem.innerHTML = `
-    <span class="city-name">${cityName}</span>
-    <button class="delete-btn">
-      <i class="fa fa-trash"></i>
-    </button>
-  `;
+// Fetch weather details based on city coordinates
+function getWeatherDetails(name, lat, lon, country, state) {
+    let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_Key}`,
+        WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_Key}`,
+        AIR_POLLUTION_API_URL = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${api_Key}`;
 
-  listItem.querySelector('.delete-btn').addEventListener('click', () => {
-    favoriteCitiesList.removeChild(listItem);
-    saveFavoriteCities();
-  });
+    fetch(AIR_POLLUTION_API_URL).then(res => res.json()).then(data => {
+        let {co, no, no2, o3, so2, pm2_5, pm10, nh3} = data.list[0].components;
+        aqiCard.innerHTML = `
+        <div class="card-head">
+            <p>Air Quality Index</p>
+            <p class="air-index-aqi-${data.list[0].main.aqi}">${aqiList[data.list[0].main.aqi - 1]}</p>
+        </div>
+        <div class="air-indices">
+            <i class="fa-regular fa-wind fa-3x"></i>
+            <div class="item"><p>PM2.5</p><h2>${pm2_5}</h2></div>
+            <div class="item"><p>PM10</p><h2>${pm10}</h2></div>
+            <div class="item"><p>SO2</p><h2>${so2}</h2></div>
+            <div class="item"><p>CO</p><h2>${co}</h2></div>
+            <div class="item"><p>NO</p><h2>${no}</h2></div>
+            <div class="item"><p>NO2</p><h2>${no2}</h2></div>
+            <div class="item"><p>NH3</p><h2>${nh3}</h2></div>
+            <div class="item"><p>O3</p><h2>${o3}</h2></div>
+        </div>`;
+    }).catch(() => alert('Failed to fetch Air Quality Index'));
 
-  favoriteCitiesList.appendChild(listItem);
-};
-
-// استرجاع تفاصيل الطقس
-const getWeatherDetails = (name, lat, lon, country) => {
-  const WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_Key}`;
-  const FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_Key}`;
-
-  fetch(WEATHER_API_URL)
-    .then((res) => res.json())
-    .then((data) => {
-      const date = new Date();
-      currentWeatherCard.innerHTML = `
+    fetch(WEATHER_API_URL).then(res => res.json()).then(data => {
+        let date = new Date();
+        currentWeatherCard.innerHTML = `
         <div class="current-weather">
-          <div class="details"> 
-            <p>Now</p>
-            <h2>${(data.main.temp - 273.15).toFixed(2)}&deg;C</h2>
-            <p>${data.weather[0].description}</p>
-          </div>
-          <div class="weather-icon">
-            <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
-          </div>
+            <div class="details">
+                <p>Now</p>
+                <h2>${(data.main.temp - 273.15).toFixed(2)}&deg;C</h2>
+                <p>${data.weather[0].description}</p>
+            </div>
+            <div class="weather-icon">
+                <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
+            </div>
         </div>
         <hr>
         <div class="card-footer">
-          <p>${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}</p>
-          <p>${name}, ${country}</p>
+            <p><i class="fa-light fa-calendar"></i>${date.toLocaleDateString()}</p>
+            <p><i class="fa-light fa-location-dot"></i> ${name}, ${country}</p>
         </div>`;
-    })
-    .catch(() => alert('Failed to fetch current weather'));
 
-  fetch(FORECAST_API_URL)
-    .then((res) => res.json())
-    .then((data) => {
-      const uniqueForecastDays = [];
-      const fiveDaysForecast = data.list.filter((forecast) => {
-        const forecastDate = new Date(forecast.dt_txt).getDate();
-        if (!uniqueForecastDays.includes(forecastDate)) {
-          uniqueForecastDays.push(forecastDate);
-          return true;
-        }
-        return false;
-      });
+        let {sunrise, sunset} = data.sys,
+            {timezone} = data,
+            {humidity, pressure, feels_like} = data.main,
+            {speed} = data.wind,
+            sRiseTime = moment.utc(sunrise, 'X').add(timezone, 'seconds').format('hh:mm A'),
+            sSetTime = moment.utc(sunset, 'X').add(timezone, 'seconds').format('hh:mm A');
 
-      fiveDaysForecastCard.innerHTML = '';
-      fiveDaysForecast.forEach((forecast) => {
-        const date = new Date(forecast.dt_txt);
-        fiveDaysForecastCard.innerHTML += `
-          <div class="forecast-item">
-            <div class="icon-wrapper">
-              <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png" alt="">
-              <span>${(forecast.main.temp - 273.15).toFixed(2)}&deg;C</span>
+        sunriseCard.innerHTML = `
+        <div class="card-head"><p>Sunrise & Sunset</p></div>
+        <div class="sunrise-sunset">
+            <div class="item"><div class="icon"><i class="fa-light fa-sunrise fa-4x"></i></div>
+                <div><p>Sunrise</p><h2>${sRiseTime}</h2></div>
             </div>
-            <p>${date.getDate()} ${months[date.getMonth()]}</p>
-            <p>${days[date.getDay()]}</p>
-          </div>`;
-      });
-    })
-    .catch(() => alert('Failed to fetch weather forecast'));
-};
+            <div class="item"><div class="icon"><i class="fa-light fa-sunset fa-4x"></i></div>
+                <div><p>Sunset</p><h2>${sSetTime}</h2></div>
+            </div>
+        </div>`;
 
-// الحصول على إحداثيات المدينة
-const getCityCoordinates = () => {
-  const cityName = cityInput.value.trim();
-  if (!cityName) return;
-  const GEOCODING_API_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_Key}`;
+        humidityVal.innerHTML = `${humidity}%`;
+        pressureVal.innerHTML = `${pressure} hPa`;
+        visibilityVal.innerHTML = `${data.visibility / 1000} km`;
+        windspeedVal.innerHTML = `${speed} m/s`;
+        feelsVal.innerHTML = `${(feels_like - 273.15).toFixed(2)}&deg;C`;
+    }).catch(() => alert('Failed to fetch current weather'));
+}
 
-  fetch(GEOCODING_API_URL)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.length === 0) {
-        alert('City not found');
-        return;
-      }
-      const { name, lat, lon, country } = data[0];
-      getWeatherDetails(name, lat, lon, country);
-    })
-    .catch(() => alert(`Failed to fetch coordinates of ${cityName}`));
-};
+// Fetch city coordinates based on the name input
+function getCityCoordinates() {
+    let cityName = cityInput.value.trim();
+    if (!cityName) return;
+    let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_Key}`;
+    fetch(GEOCODING_API_URL).then(res => res.json()).then(data => {
+        let { name, lat, lon, country } = data[0];
+        getWeatherDetails(name, lat, lon, country);
+    }).catch(() => alert(`Failed to fetch coordinates of ${cityName}`));
+}
 
-// أحداث المستخدم
+// Event listeners
 searchBtn.addEventListener('click', getCityCoordinates);
 
 addCityBtn.addEventListener('click', () => {
-  const cityName = favoriteCityInput.value.trim();
-  if (cityName) {
-    addCityToList(cityName);
-    saveFavoriteCities();
-    favoriteCityInput.value = '';
-  }
+    let cityName = cityInput.value.trim();
+    if (cityName) {
+        addFavoriteCity(cityName);
+        cityInput.value = '';  // Clear the input field
+    }
 });
 
-// تحميل المدن المفضلة عند فتح الصفحة
+// Initial load of favorite cities
 loadFavoriteCities();

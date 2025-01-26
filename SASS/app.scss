@@ -1,214 +1,80 @@
-// Variables
-$primary-color: linear-gradient(135deg, #7f00ff, #007fff);
-$background-color: #121212; // Black
-$text-color: #ffffff; // White
-$card-bg: #1e1e2f; // Slightly lighter black
-$accent-color: #2514dc; // Green for highlights
-$transition-time: 0.3s;
-
-// Global Styles
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+$primary-color: #ffffff;
+$secondary-color: #000000;
+$gradient-color: linear-gradient(135deg, #ff6f91, #4d9ff6);
+$card-bg: #1a1a1a;
+$button-hover: #ff4181;
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: $background-color;
-  color: $text-color;
-  line-height: 1.6;
-  padding: 1rem;
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: $secondary-color;
+  color: $primary-color;
 }
 
-// Header
-.header {
+header {
+  background: $gradient-color;
+  padding: 20px;
   text-align: center;
-  margin-bottom: 2rem;
-
-  h2 {
-    font-size: 2.5rem;
-    background: $primary-color;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .weather-input {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    margin-top: 1rem;
-
-    input {
-      padding: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      width: 300px;
-      background-color: $card-bg;
-      color: $text-color;
-      outline: none;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      border: none;
-      background: $primary-color;
-      color: $text-color;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color $transition-time;
-
-      &:hover {
-        background: $primary-color;
-      }
-
-      i {
-        margin-right: 0.5rem;
-      }
-    }
-  }
-}
-
-// Weather Cards
-.weather-data {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-
-  .weather-left,
-  .weather-right {
-    flex: 1;
-
-    .card {
-      background-color: $card-bg;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      transition: transform $transition-time;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      h2 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-        color: $text-color;
-      }
-
-      .forecast-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0.5rem 0;
-
-        .icon-wrapper {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-
-          img {
-            width: 50px;
-          }
-
-          span {
-            font-size: 1.2rem;
-            color: $accent-color;
-          }
-        }
-
-        p {
-          font-size: 1rem;
-          color: lighten($text-color, 20%);
-        }
-      }
-    }
-  }
-}
-
-// Favorite Cities Section
-.favorite-cities {
-  margin-top: 2rem;
-
-  h2 {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  h1 {
+    margin: 0;
     font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    background: $primary-color;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: $primary-color;
   }
+}
 
-  .city-input {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
+.container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
 
-    input {
-      padding: 0.5rem;
-      border-radius: 5px;
-      border: none;
-      background-color: $card-bg;
-      color: $text-color;
-      outline: none;
-      width: 200px;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      border: none;
-      background: $primary-color;
-      color: $text-color;
-      cursor: pointer;
-      transition: background-color $transition-time;
-
-      &:hover {
-        background: $primary-color;
-      }
-    }
+.card {
+  background: $card-bg;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
   }
+  .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: $gradient-color;
+  }
+  .card-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: lighten($primary-color, 10%);
+  }
+}
 
-  ul {
-    list-style: none;
-    margin-top: 1rem;
-    padding: 0;
+button {
+  background: $gradient-color;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: $primary-color;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background: $button-hover;
+  }
+}
 
-    li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      background-color: $card-bg;
-      border-radius: 5px;
-      margin-bottom: 0.5rem;
-      transition: transform $transition-time;
-
-      &:hover {
-        transform: translateX(10px);
-      }
-
-      span {
-        font-size: 1.1rem;
-        color: $text-color;
-      }
-
-      button {
-        background: none;
-        border: none;
-        color: $text-color;
-        cursor: pointer;
-        transition: color $transition-time;
-
-        &:hover {
-          color: $accent-color;
-        }
-
-        i {
-          font-size: 1.2rem;
-        }
-      }
-    }
+.footer {
+  text-align: center;
+  padding: 15px;
+  background: $card-bg;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: lighten($primary-color, 20%);
   }
 }
